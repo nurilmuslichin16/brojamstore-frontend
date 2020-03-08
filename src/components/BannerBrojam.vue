@@ -16,7 +16,7 @@
                                         </router-link>
                                     </li>
                                     <li class="quick-view">
-                                        <router-link to="/product">+ Quick View</router-link>
+                                        <router-link v-bind:to="'/product/'+item.id">+ Quick View</router-link>
                                     </li>
                                 </ul>
                             </div>
@@ -34,7 +34,7 @@
 
                     </carousel>
                 </div>
-                <div class="col-lg-12 mt-5">
+                <div v-else class="col-lg-12 mt-5">
                     <h3>Produk terbaru belum tersedia untuk saat ini.</h3>
                 </div>
             </div>
