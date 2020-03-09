@@ -42,9 +42,7 @@
                                     <h3>{{ productDetail.name }}</h3>
                                 </div>
                                 <div class="pd-desc">
-                                    <p>
-                                        {{ productDetail.description }}
-                                    </p>
+                                    <p v-html="productDetail.description"></p>
                                     <h4>${{ productDetail.price }}</h4>
                                 </div>
                                 <div class="quantity">
@@ -83,12 +81,6 @@ export default {
   data() {
       return {
           gambarUtama: '',
-          thumbs: [
-              'img/mickey1.jpg',
-              'img/mickey2.jpg',
-              'img/mickey3.jpg',
-              'img/mickey4.jpg',
-          ],
           productDetail: []
       }
   },
