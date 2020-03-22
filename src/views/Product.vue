@@ -46,7 +46,9 @@
                                     <h4>${{ productDetail.price }}</h4>
                                 </div>
                                 <div class="quantity">
-                                    <router-link to="/cart" class="primary-btn pd-cart">Add To Cart</router-link>
+                                    <router-link to="/cart">
+                                    <a @click="saveKeranjang(productDetail.id, productDetail.name, productDetail.price, productDetail.galleries[0].photo)" href="#" class="primary-btn pd-cart">Add To Cart</a>
+                                    </router-link>
                                 </div>
                             </div>
                         </div>
@@ -71,31 +73,51 @@ import carousel from 'vue-owl-carousel'
 import axios from 'axios'
 
 export default {
-  name: 'Product',
-  components: {
-    HeaderBrojam,
-    FooterBrojam,
-    RelatedBrojam,
-    carousel
-  },
-  data() {
-      return {
-          gambarUtama: '',
-          productDetail: []
-      }
-  },
-  methods: {
-      changeImage(imgURL){
-          this.gambarUtama = imgURL;
-      },
-      setDataPicture(data){
-          // replace object productDetail dengan data dari API
-          this.productDetail = data;
-          // replace value gambar default dengan data dari API (galleries)
-          this.gambarUtama = data.galleries[0].photo;
-      }
-  },
+    name: 'Product',
+    components: {
+        HeaderBrojam,
+        FooterBrojam,
+        RelatedBrojam,
+        carousel
+    },
+    data() {
+        return {
+            gambarUtama: '',
+            productDetail: [],
+            keranjangUser: []
+        }
+    },
+    methods: {
+        changeImage(imgURL){
+            this.gambarUtama = imgURL;
+        },
+        setDataPicture(data){
+            // replace object productDetail dengan data dari API
+            this.productDetail = data;
+            // replace value gambar default dengan data dari API (galleries)
+            this.gambarUtama = data.galleries[0].photo;
+        },
+        saveKeranjang(idProduct, nameProduct, priceProduct, photoProduct) {
+            var productStored = {
+                "id": idProduct,
+                "name": nameProduct,
+                "price": priceProduct,
+                "photo": photoProduct
+            }
+
+            this.keranjangUser.push(productStored);
+            const parsed = JSON.stringify(this.keranjangUser);
+            localStorage.setItem('keranjangUser', parsed);
+        }
+    },
     mounted() {
+        if(localStorage.getItem('keranjangUser')) {
+            try {
+                this.keranjangUser = JSON.parse(localStorage.getItem('keranjangUser'));
+            } catch(e) {
+                localStorage.removeItem('keranjangUser');
+            }
+        }
         axios
         .get("http://127.0.0.1:8000/api/products", {
             params: {
