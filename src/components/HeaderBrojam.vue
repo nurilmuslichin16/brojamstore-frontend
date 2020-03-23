@@ -36,7 +36,7 @@
                                     <div class="select-items">
                                         <table>
                                             <tbody v-if="keranjangUser.length > 0">
-                                                <tr v-for="keranjang in keranjangUser" :key="keranjang.id">
+                                                <tr v-for="(keranjang, index) in keranjangUser" :key="keranjang.id">
                                                     <td class="si-pic">
                                                         <img class="photo-item" :src="keranjang.photo" alt="" />
                                                     </td>
@@ -46,7 +46,7 @@
                                                             <h6>{{ keranjang.name }}</h6>
                                                         </div>
                                                     </td>
-                                                    <td @click="removeItem(keranjangUser.index)" class="si-close">
+                                                    <td @click="removeItem(index)" class="si-close">
                                                         <i class="ti-close"></i>
                                                     </td>
                                                 </tr>

@@ -37,7 +37,7 @@
                                             </tr>
                                         </thead>
                                         <tbody v-if="keranjangUser.length > 0">
-                                            <tr v-for="keranjang in keranjangUser" :key="keranjang.id">
+                                            <tr v-for="(keranjang, index) in keranjangUser" :key="keranjang.id">
                                                 <td class="cart-pic first-row">
                                                     <img class="img-cart" :src="keranjang.photo" />
                                                 </td>
@@ -45,7 +45,7 @@
                                                     <h5>{{ keranjang.name }}</h5>
                                                 </td>
                                                 <td class="p-price first-row">${{ keranjang.price }}</td>
-                                                <td class="delete-item"><a href="#" @click="removeItem(keranjangUser.index)"><i class="material-icons">
+                                                <td class="delete-item"><a href="#" @click="removeItem(index)"><i class="material-icons">
                                                 close
                                                 </i></a></td>
                                             </tr>
