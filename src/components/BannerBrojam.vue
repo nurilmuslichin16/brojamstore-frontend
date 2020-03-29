@@ -10,10 +10,10 @@
                             <div class="pi-pic">
                                 <img v-bind:src="item.galleries[0].photo" alt="" />
                                 <ul>
-                                    <li class="w-icon active">
-                                        <router-link to="/cart">
-                                            <i @click="saveKeranjang(item.id, item.name, item.price, item.galleries[0].photo)" class="icon_bag_alt"></i>
-                                        </router-link>
+                                    <li @click="saveKeranjang(item.id, item.name, item.price, item.galleries[0].photo)" class="w-icon active">
+                                        <a href="#">
+                                            <i class="icon_bag_alt"></i>
+                                        </a>
                                     </li>
                                     <li class="quick-view">
                                         <router-link v-bind:to="'/product/'+item.id">+ Quick View</router-link>
@@ -70,9 +70,15 @@ export default {
             this.keranjangUser.push(productStored);
             const parsed = JSON.stringify(this.keranjangUser);
             localStorage.setItem('keranjangUser', parsed);
+            window.location.reload();
         }
     },
     mounted() {
+        axios
+        .get("http://127.0.0.1:8000/api/products")
+        .then(res => (this.products = res.data.data.data))
+        // eslint-disable-next-line no-console
+        .catch(err => console.log(err));
         if(localStorage.getItem('keranjangUser')) {
             try {
                 this.keranjangUser = JSON.parse(localStorage.getItem('keranjangUser'));
@@ -80,10 +86,6 @@ export default {
                 localStorage.removeItem('keranjangUser');
             }
         }
-        axios
-        .get("http://127.0.0.1:8000/api/products")
-        .then(res => (this.products = res.data.data.data))
-        .catch(err => console.log(err));
     }
 }
 </script>

@@ -46,9 +46,7 @@
                                     <h4>${{ productDetail.price }}</h4>
                                 </div>
                                 <div class="quantity">
-                                    <router-link to="/cart">
                                     <a @click="saveKeranjang(productDetail.id, productDetail.name, productDetail.price, productDetail.galleries[0].photo)" href="#" class="primary-btn pd-cart">Add To Cart</a>
-                                    </router-link>
                                 </div>
                             </div>
                         </div>
@@ -108,16 +106,10 @@ export default {
             this.keranjangUser.push(productStored);
             const parsed = JSON.stringify(this.keranjangUser);
             localStorage.setItem('keranjangUser', parsed);
+            window.location.reload();
         }
     },
     mounted() {
-        if(localStorage.getItem('keranjangUser')) {
-            try {
-                this.keranjangUser = JSON.parse(localStorage.getItem('keranjangUser'));
-            } catch(e) {
-                localStorage.removeItem('keranjangUser');
-            }
-        }
         axios
         .get("http://127.0.0.1:8000/api/products", {
             params: {
@@ -127,6 +119,13 @@ export default {
         .then(res => (this.setDataPicture(res.data.data)))
         // eslint-disable-next-line no-console
         .catch(err => console.log(err));
+        if(localStorage.getItem('keranjangUser')) {
+            try {
+                this.keranjangUser = JSON.parse(localStorage.getItem('keranjangUser'));
+            } catch(e) {
+                localStorage.removeItem('keranjangUser');
+            }
+        }
     }
 }
 </script>

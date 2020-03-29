@@ -37,7 +37,7 @@
                                             </tr>
                                         </thead>
                                         <tbody v-if="keranjangUser.length > 0">
-                                            <tr v-for="(keranjang, index) in keranjangUser" :key="keranjang.id">
+                                            <tr v-for="keranjang in keranjangUser" :key="keranjang.id">
                                                 <td class="cart-pic first-row">
                                                     <img class="img-cart" :src="keranjang.photo" />
                                                 </td>
@@ -45,7 +45,7 @@
                                                     <h5>{{ keranjang.name }}</h5>
                                                 </td>
                                                 <td class="p-price first-row">${{ keranjang.price }}</td>
-                                                <td class="delete-item"><a href="#" @click="removeItem(index)"><i class="material-icons">
+                                                <td class="delete-item"><a href="#" @click="removeItem(keranjang.id)"><i class="material-icons">
                                                 close
                                                 </i></a></td>
                                             </tr>
@@ -133,10 +133,20 @@ export default {
         }
     },
     methods: {
-        removeItem(index) {
+        removeItem(xx) {
+            // this.keranjangUser.splice(index, 1);
+            // const parsed = JSON.stringify(this.keranjangUser);
+            // localStorage.setItem('keranjangUser', parsed);
+
+            let faveGifs = JSON.parse(localStorage.getItem("keranjangUser"));
+            let faveGif = faveGifs.map(faveGif => faveGif.id);
+            let index = faveGif.findIndex(id => id == xx);
             this.keranjangUser.splice(index, 1);
             const parsed = JSON.stringify(this.keranjangUser);
-            localStorage.setItem('keranjangUser', parsed);
+            localStorage.setItem("keranjangUser", parsed);
+            window.location.reload();
+            // eslint-disable-next-line no-console
+            // console.log(index);
         },
         checkout() {
             let productIds = this.keranjangUser.map(function(product){
@@ -158,6 +168,8 @@ export default {
             .then(() => this.$router.push('success'))
             // eslint-disable-next-line no-console
             .catch(err => console.log(err));
+
+            localStorage.removeItem('keranjangUser');
         }
     },
     mounted() {
